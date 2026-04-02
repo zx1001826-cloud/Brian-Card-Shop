@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Brian Card Shop | 寶可夢卡包與禮盒</title>
+  <style>
+    :root {
+      --bg: #050505;
+      --panel: rgba(18, 18, 20, 0.92);
+      --gold: #d4af37;
+      --line: #06c755;
+      --text: #f7f7f7;
+      --text-soft: #b8b8b8;
+      --border: rgba(255,255,255,0.08);
+      --shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+      --radius: 22px;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, "PingFang TC", "Microsoft JhengHei", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top, rgba(212,175,55,0.12), transparent 30%),
+        linear-gradient(180deg, #040404 0%, #0a0a0b 45%, #040404 100%);
+      min-height: 100vh;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+    .container { width: min(1320px, calc(100% - 32px)); margin: 0 auto; }
+    .hero { padding: 40px 0 26px; }
+    .hero-box {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      background: linear-gradient(135deg, rgba(212,175,55,0.1), rgba(255,255,255,0.02)), rgba(10,10,12,0.9);
+      box-shadow: var(--shadow);
+      padding: 30px 26px;
+    }
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 26px;
+    }
+    .brand small { color: var(--gold); letter-spacing: 3px; font-weight: 700; }
+    .brand h1 { margin: 6px 0; font-size: clamp(2rem, 4vw, 3.4rem); line-height: 1.05; }
+    .brand p { margin: 0; color: var(--text-soft); font-size: 0.98rem; }
+    .line-contact {
+      display: inline-flex; align-items: center; gap: 10px; padding: 13px 22px;
+      border-radius: 999px; background: linear-gradient(135deg, #09d25e, #06b84f); color: #fff;
+      font-weight: 800; box-shadow: 0 10px 30px rgba(6,199,85,0.25);
+    }
+    .hero-grid { display: grid; grid-template-columns: 1.3fr 0.7fr; gap: 18px; }
+    .hero-card {
+      border: 1px solid var(--border); border-radius: 24px; background: rgba(255,255,255,0.03);
+      padding: 22px; backdrop-filter: blur(8px);
+    }
+    .hero-card h2 { margin: 0 0 10px; font-size: 1.25rem; }
+    .hero-card p { margin: 0; color: var(--text-soft); line-height: 1.8; }
+    .section-title {
+      display: flex; justify-content: space-between; align-items: end; gap: 10px; margin: 34px 0 18px;
+    }
+    .section-title h3 { margin: 0; font-size: 1.55rem; }
+    .section-title p { margin: 0; color: var(--text-soft); }
+    .catalog { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; margin-bottom: 42px; }
+    .item-card {
+      background: linear-gradient(180deg, rgba(26,26,29,0.98), rgba(13,13,15,0.98));
+      border: 1px solid rgba(255,255,255,0.08); border-radius: var(--radius); overflow: hidden;
+      box-shadow: var(--shadow); cursor: pointer; transition: transform 0.28s ease, border-color 0.28s ease;
+    }
+    .item-card:hover { transform: translateY(-6px); border-color: rgba(212,175,55,0.55); }
+    .thumb-wrap { position: relative; aspect-ratio: 3 / 4; overflow: hidden; background: #111114; }
+    .thumb-wrap img {
+      width: 100%; height: 100%; object-fit: contain; background: #0d0d10; padding: 10px; cursor: zoom-in;
+    }
+    .stock-badge, .type-badge {
+      position: absolute; top: 14px; z-index: 2; padding: 7px 12px; font-size: 0.78rem; font-weight: 800;
+      border-radius: 999px; backdrop-filter: blur(8px);
+    }
+    .stock-badge { right: 14px; color: #fff; background: rgba(214,48,49,0.88); }
+    .type-badge { left: 14px; color: var(--gold); background: rgba(0,0,0,0.62); border: 1px solid rgba(212,175,55,0.35); }
+    .card-body { padding: 16px 16px 18px; }
+    .card-body h4 { margin: 0 0 8px; font-size: 1.08rem; line-height: 1.4; }
+    .card-body p { margin: 0; color: var(--text-soft); font-size: 0.93rem; min-height: 40px; line-height: 1.6; }
+    .chase-preview { display: flex; align-items: center; gap: 8px; margin-top: 14px; flex-wrap: wrap; }
+    .chase-pill {
+      padding: 7px 10px; border-radius: 999px; background: rgba(212,175,55,0.08);
+      border: 1px solid rgba(212,175,55,0.18); color: #f3dc8d; font-size: 0.78rem; white-space: nowrap;
+    }
+    .cta-row { margin-top: 15px; display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+    .mini-link { color: var(--gold); font-weight: 700; font-size: 0.9rem; }
+
+    .modal {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.75); display: none; align-items: center; justify-content: center;
+      padding: 22px; z-index: 999;
+    }
+    .modal.show { display: flex; }
+    .modal-panel {
+      width: min(1120px, 100%); max-height: 90vh; overflow: auto; border-radius: 28px;
+      background: linear-gradient(180deg, rgba(18,18,22,0.98), rgba(9,9,11,0.98));
+      border: 1px solid rgba(212,175,55,0.2); box-shadow: 0 30px 100px rgba(0,0,0,0.7); padding: 22px;
+    }
+    .modal-top { display: flex; justify-content: space-between; gap: 16px; align-items: flex-start; margin-bottom: 18px; }
+    .modal-top h2 { margin: 0 0 8px; font-size: clamp(1.6rem, 3vw, 2.25rem); }
+    .modal-top p { margin: 0; color: var(--text-soft); line-height: 1.7; }
+    .close-btn {
+      border: 0; background: rgba(255,255,255,0.08); color: #fff; font-size: 1.4rem; width: 44px; height: 44px;
+      border-radius: 999px; cursor: pointer;
+    }
+    .detail-layout { display: grid; grid-template-columns: 0.88fr 1.12fr; gap: 22px; }
+    .cover-box, .info-box {
+      border: 1px solid var(--border); border-radius: 24px; background: rgba(255,255,255,0.03); padding: 18px;
+    }
+    .cover-box img {
+      width: 100%; aspect-ratio: 3 / 4; border-radius: 18px; object-fit: contain; background: #111; padding: 8px; cursor: zoom-in;
+    }
+    .meta-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 18px; }
+    .meta-card { background: rgba(212,175,55,0.06); border: 1px solid rgba(212,175,55,0.14); border-radius: 18px; padding: 14px; }
+    .meta-card span { display: block; font-size: 0.82rem; color: var(--text-soft); margin-bottom: 7px; }
+    .meta-card strong { font-size: 1.1rem; color: #fff; }
+    .prize-title { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin: 6px 0 14px; }
+    .prize-title h3 { margin: 0; font-size: 1.2rem; color: var(--gold); }
+    .prize-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 14px; }
+    .prize-card {
+      background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 18px; overflow: hidden;
+      transition: transform 0.25s ease, border-color 0.25s ease;
+    }
+    .prize-card:hover { transform: translateY(-4px); border-color: rgba(212,175,55,0.45); }
+    .prize-card img {
+      width: 100%; aspect-ratio: 3 / 4; object-fit: contain; background: #111; padding: 8px; cursor: zoom-in;
+    }
+    .prize-card .text { padding: 12px; }
+    .prize-card strong { display: block; font-size: 0.92rem; line-height: 1.45; color: #fff; }
+    .prize-card span { display: block; margin-top: 5px; font-size: 0.78rem; color: var(--gold); }
+    .buy-box {
+      margin-top: 18px; display: flex; justify-content: space-between; align-items: center; gap: 14px; flex-wrap: wrap;
+      padding: 16px 18px; border-radius: 20px; background: rgba(6,199,85,0.08); border: 1px solid rgba(6,199,85,0.22);
+    }
+    .buy-box p { margin: 0; color: #d9ffe8; line-height: 1.7; }
+    footer { padding: 0 0 40px; color: #6e6e6e; text-align: center; font-size: 0.9rem; }
+
+    .image-lightbox {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.9); display: none; align-items: center; justify-content: center;
+      padding: 24px; z-index: 1200;
+    }
+    .image-lightbox.show { display: flex; }
+    .image-lightbox-inner {
+      position: relative; width: min(92vw, 980px); max-height: 92vh; display: flex; align-items: center; justify-content: center;
+    }
+    .image-lightbox img {
+      max-width: 100%; max-height: 92vh; object-fit: contain; border-radius: 22px; border: 1px solid rgba(255,255,255,0.12);
+      box-shadow: 0 30px 100px rgba(0,0,0,0.7); background: #090909;
+    }
+    .lightbox-close {
+      position: absolute; top: -12px; right: -12px; width: 46px; height: 46px; border: 0; border-radius: 999px;
+      background: rgba(255,255,255,0.12); color: #fff; font-size: 1.4rem; cursor: pointer;
+    }
+    .lightbox-caption {
+      position: absolute; left: 50%; bottom: -54px; transform: translateX(-50%); color: #fff; text-align: center;
+      width: min(90vw, 720px); font-size: 0.95rem; line-height: 1.6;
+    }
+
+    @media (max-width: 1100px) {
+      .catalog { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .hero-grid, .detail-layout { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 780px) {
+      .catalog { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .meta-grid { grid-template-columns: 1fr; }
+      .hero-box { padding: 24px 18px; }
+    }
+    @media (max-width: 520px) {
+      .catalog { grid-template-columns: 1fr; }
+      .container { width: min(100% - 20px, 1320px); }
+      .card-body p { min-height: auto; }
+      .buy-box { align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <section class="hero">
+      <div class="hero-box">
+        <div class="topbar">
+          <div class="brand">
+            <small>PREMIUM POKÉMON TCG SHOP</small>
+            <h1>Brian Card Shop</h1>
+            <p>寶可夢卡包與禮盒|可點擊查看各系列大獎與庫存</p>
+          </div>
+          <a class="line-contact" href="https://line.me/ti/p/~zx1001826" target="_blank" rel="noopener noreferrer">加我 LINE 詢問 / 下單</a>
+        </div>
+
+        <div class="hero-grid">
+          <div class="hero-card">
+            <h2>開卡開到手軟</h2>
+            <p>每一包都是希望,一起加入美版。</p>
+          
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h3>卡包 / 禮盒列表</h3>
+        <p>點任一商品可展開詳細資訊</p>
+      </div>
+      <div class="catalog" id="catalog"></div>
+    </section>
+
+    <footer>© 2026 Brian Card Shop · Pokémon TCG Collection Store</footer>
+  </div>
+
+  <div class="modal" id="productModal" aria-hidden="true">
+    <div class="modal-panel">
+      <div class="modal-top">
+        <div>
+          <h2 id="modalTitle">商品名稱</h2>
+          <p id="modalDesc">商品描述</p>
+        </div>
+        <button class="close-btn" id="closeModal" aria-label="關閉">×</button>
+      </div>
+
+      <div class="detail-layout">
+        <div class="cover-box">
+          <img id="modalCover" src="" alt="商品封面" />
+        </div>
+
+        <div class="info-box">
+          <div class="meta-grid">
+            <div class="meta-card"><span>商品類型</span><strong id="modalType">卡包</strong></div>
+            <div class="meta-card"><span>目前庫存</span><strong id="modalStock">0</strong></div>
+            <div class="meta-card"><span>聯絡方式</span><strong>LINE 私訊</strong></div>
+          </div>
+
+          <div class="prize-title">
+            <h3>本系列大獎</h3>
+            <span style="color: var(--text-soft); font-size: 0.9rem;">可直接展示重點 chase 卡</span>
+          </div>
+          <div class="prize-grid" id="modalPrizes"></div>
+
+          <div class="buy-box">
+            <p id="modalNotice">想看更多實拍圖、盒況、封條狀況，可直接加 LINE 詢問。</p>
+            <a class="line-contact" id="modalLineLink" href="https://line.me/ti/p/~zx1001826" target="_blank" rel="noopener noreferrer">加 LINE 詢問</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="image-lightbox" id="imageLightbox" aria-hidden="true">
+    <div class="image-lightbox-inner">
+      <button class="lightbox-close" id="lightboxClose" aria-label="關閉圖片放大">×</button>
+      <img id="lightboxImage" src="" alt="放大圖片" />
+      <div class="lightbox-caption" id="lightboxCaption"></div>
+    </div>
+  </div>
+
+  <script>
+    const lineUrl = "https://line.me/ti/p/~zx1001826";
+
+    const products = [
+      {
+        id: 1,
+        name: "Phantasmal Flames",
+        type: "TW400",
+        stock: "9包",
+        desc: "老噴系列",
+        cover: "https://www.blezonline.com/_next/image?url=https%3A%2F%2Ftwpbrxfgpzjmbxgwhljk.supabase.co%2Fstorage%2Fv1%2Fobject%2Fpublic%2Fcollectibles%2Fpublic%2FPOKEMON%2FME2-PHANTASMAL_FLAMES.webp&w=1920&q=75",
+        coverFallback: "https://www.pokebeach.com/news/2025/10/129-Dawn-141x200.jpg",
+        topHits: [
+          { name: "Mega Charizard X ex", tag: "SIR / 頭號大獎🔥", image: "https://storage.googleapis.com/images.pricecharting.com/fsbqea5aod5mejp5/1600.jpg" },
+          { name: "Dawn", tag: "SIR Supporter", image: "https://i.ebayimg.com/images/g/1x8AAeSwnQ5pw3eq/s-l1600.webp" },
+          { name: "Mega Charizard ex", tag: "Gold Hyper Rare", image: "https://i.ebayimg.com/images/g/cMEAAeSwufRpXpHm/s-l1600.webp" },
+          { name: "Mega Gengar ex", tag: "人氣大獎", image: "https://storage.googleapis.com/images.pricecharting.com/2ylvnjuqaptnrtgq/1600.jpg" }
+        ]
+      },
+      {
+        id: 2,
+        name: "151 Expansion",
+        type: "TW1000",
+        stock: "5包",
+        desc: "經典 151 系列，御三家與夢幻、閃電鳥都是熱門追卡。",
+        cover: "https://www.blezonline.com/_next/image?url=https%3A%2F%2Ftwpbrxfgpzjmbxgwhljk.supabase.co%2Fstorage%2Fv1%2Fobject%2Fpublic%2Fcollectibles%2Fpublic%2FPOKEMON%2FSV-151_EXPANSION.webp&w=1920&q=75",
+        coverFallback: "https://images.pokemontcg.io/sv3pt5/199_hires.png",
+        topHits: [
+          { name: "Charizard ex", tag: "SIR", image: "https://images.pokemontcg.io/sv3pt5/199_hires.png" },
+          { name: "Blastoise ex", tag: "SIR", image: "https://images.pokemontcg.io/sv3pt5/200_hires.png" },
+          { name: "Venusaur ex", tag: "SIR", image: "https://images.pokemontcg.io/sv3pt5/198_hires.png" },
+          { name: "Zapdos ex", tag: "SIR", image: "https://images.pokemontcg.io/sv3pt5/202_hires.png" }
+        ]
+      },
+      {
+        id: 3,
+        name: "Prismatic Evolutions",
+        type: "TW500",
+        stock: "8包",
+        desc: "伊布系列焦點彈。",
+        cover: "https://www.blezonline.com/_next/image?url=https%3A%2F%2Ftwpbrxfgpzjmbxgwhljk.supabase.co%2Fstorage%2Fv1%2Fobject%2Fpublic%2Fcollectibles%2Fpublic%2FPOKEMON%2FSV85-PRISMATIC_EVOLUTIONS.webp&w=1920&q=75",
+        coverFallback: "https://images.pokemontcg.io/sv8pt5/161_hires.png",
+        topHits: [
+          { name: "Umbreon ex", tag: "SIR / 頭號熱門", image: "https://images.pokemontcg.io/sv8pt5/161_hires.png" },
+          { name: "Sylveon ex", tag: "SIR", image: "https://images.pokemontcg.io/sv8pt5/156_hires.png" },
+          { name: "Eevee ex", tag: "SIR", image: "https://images.pokemontcg.io/sv8pt5/146_hires.png" },
+          { name: "Espeon ex", tag: "高人氣 SIR", image: "https://images.pokemontcg.io/sv8pt5/155_hires.png" }
+        ]
+      },
+      {
+        id: 4,
+        name: "Chilling Reign",
+        type: "TW450",
+        stock: "8包",
+        desc: "三神鳥與 Blaziken 異圖為這彈代表追卡。",
+        cover: "https://www.blezonline.com/_next/image?url=https%3A%2F%2Ftwpbrxfgpzjmbxgwhljk.supabase.co%2Fstorage%2Fv1%2Fobject%2Fpublic%2Fcollectibles%2Fpublic%2FPOKEMON%2FSWSH6-CHILLING_REIGN.webp&w=1920&q=75",
+        coverFallback: "https://images.pokemontcg.io/swsh6/177_hires.png",
+        topHits: [
+          { name: "Galarian Moltres V", tag: "Alt Art / 頭號大獎", image: "https://images.pokemontcg.io/swsh6/177_hires.png" },
+          { name: "Blaziken VMAX", tag: "Alt Art", image: "https://images.pokemontcg.io/swsh6/201_hires.png" },
+          { name: "Galarian Articuno V", tag: "Alt Art", image: "https://images.pokemontcg.io/swsh6/170_hires.png" },
+          { name: "Galarian Zapdos V", tag: "Alt Art", image: "https://images.pokemontcg.io/swsh6/174_hires.png" }
+        ]
+      },
+      {
+        id: 5,
+        name: "Destined Rivals",
+        type: "TW350",
+        stock: "8包",
+        desc: "老大的超夢。",
+        cover: "https://www.blezonline.com/_next/image?url=https%3A%2F%2Ftwpbrxfgpzjmbxgwhljk.supabase.co%2Fstorage%2Fv1%2Fobject%2Fpublic%2Fcollectibles%2Fpublic%2FPOKEMON%2FSV10-DESTINED_RIVALS.webp&w=1920&q=75",
+        coverFallback: "https://www.pokebeach.com/news/2025/05/SV10_EN_232-144x200.png",
+        topHits: [
+          { name: "Team Rocket's Crobat ex", tag: "高價人氣卡", image: "https://tcgplayer-cdn.tcgplayer.com/product/633031_in_1000x1000.jpg" },
+          { name: "Cynthia's Garchomp ex", tag: "SIR / 高人氣", image: "https://www.pokebeach.com/news/2025/05/SV10_EN_232-144x200.png" },
+          { name: "Ethan's Ho-Oh ex", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/633030_in_1000x1000.jpg" },
+          { name: "Team Rocket's Mewtwo ex", tag: "話題卡", image: "https://tcgplayer-cdn.tcgplayer.com/product/633040_in_1000x1000.jpg" }
+        ]
+      },
+      {
+        id: 6,
+        name: "Crown Zenith",
+        type: "TW800",
+        stock: "3包",
+        desc: "金神卡與超夢 VSTAR 是這彈最經典的大獎群。",
+        cover: "https://www.blezonline.com/_next/image?url=https%3A%2F%2Ftwpbrxfgpzjmbxgwhljk.supabase.co%2Fstorage%2Fv1%2Fobject%2Fpublic%2Fcollectibles%2Fpublic%2FPOKEMON%2FSWSH125-CROWN_ZENITH.webp&w=1920&q=75",
+        coverFallback: "https://images.pokemontcg.io/swsh12tg/GG69_hires.png",
+        topHits: [
+          { name: "Giratina VSTAR", tag: "Galarian Gallery Gold", image: "https://tcgplayer-cdn.tcgplayer.com/product/478100_in_1000x1000.jpg" },
+          { name: "Arceus VSTAR", tag: "Galarian Gallery Gold", image: "https://tcgplayer-cdn.tcgplayer.com/product/478101_in_1000x1000.jpg" },
+          { name: "Mewtwo VSTAR", tag: "GG 熱門卡", image: "https://tcgplayer-cdn.tcgplayer.com/product/477057_in_1000x1000.jpg" },
+          { name: "Pikachu", tag: "Secret Rare", image: "https://tcgplayer-cdn.tcgplayer.com/product/478103_in_1000x1000.jpg" }
+        ]
+      },
+      {
+        id: 7,
+        name: "Mega Evolutions Perfect Order",
+        type: "TW280",
+        stock: "1包",
+        desc: "基格爾德。",
+        cover: "https://www.blezonline.com/_next/image?url=https%3A%2F%2Ftwpbrxfgpzjmbxgwhljk.supabase.co%2Fstorage%2Fv1%2Fobject%2Fpublic%2Fcollectibles%2Fpublic%2FPOKEMON%2FME3-PERFECT_ORDER.webp&w=1920&q=75",
+        coverFallback: "https://www.pokebeach.com/news/2026/03/123-Rosas-Encouragement-141x200.jpg",
+        topHits: [
+          { name: "Mega Zygarde ex", tag: "SIR / 頭號大獎", image: "https://tcgplayer-cdn.tcgplayer.com/product/684339_in_1000x1000.jpg" },
+          { name: "Rosa's Encouragement", tag: "SIR Supporter", image: "https://tcgplayer-cdn.tcgplayer.com/product/684392_in_1000x1000.jpg" },
+          { name: "Mega Starmie ex", tag: "高人氣卡", image: "https://tcgplayer-cdn.tcgplayer.com/product/684362_in_1000x1000.jpg" },
+          { name: "Mega Clefable ex", tag: "高人氣卡", image: "https://tcgplayer-cdn.tcgplayer.com/product/684385_in_1000x1000.jpg" }
+        ]
+      },
+      {
+        id: 8,
+        name: "Silver Tempest",
+        type: "TW380",
+        stock: "8包",
+        desc: "洛奇亞異圖穩坐頭號追卡。",
+        cover: "https://www.blezonline.com/_next/image?url=https%3A%2F%2Ftwpbrxfgpzjmbxgwhljk.supabase.co%2Fstorage%2Fv1%2Fobject%2Fpublic%2Fcollectibles%2Fpublic%2FPOKEMON%2FSWSH12-SILVER_TEMPEST.webp&w=1920&q=75",
+        coverFallback: "https://images.pokemontcg.io/swsh12/186_hires.png",
+        topHits: [
+          { name: "Lugia V", tag: "Alt Art / 頭號大獎", image: "https://images.pokemontcg.io/swsh12/186_hires.png" },
+          { name: "Regidrago V", tag: "Alt Art", image: "https://images.pokemontcg.io/swsh12/184_hires.png" },
+          { name: "Serena", tag: "Full Art Supporter", image: "https://images.pokemontcg.io/swsh12/207_hires.png" },
+          { name: "Unown V", tag: "Alt Art", image: "https://images.pokemontcg.io/swsh12/176_hires.png" }
+        ]
+      },
+      {
+        id: 9,
+        name: "Lost Origin",
+        type: "TW650",
+        stock: "7包",
+        desc: "鬼龍異圖是這彈最強追卡。",
+        cover: "https://www.blezonline.com/_next/image?url=https%3A%2F%2Ftwpbrxfgpzjmbxgwhljk.supabase.co%2Fstorage%2Fv1%2Fobject%2Fpublic%2Fcollectibles%2Fpublic%2FPOKEMON%2FSWSH11-LOST_ORIGIN.webp&w=1920&q=75",
+        coverFallback: "https://images.pokemontcg.io/swsh11/186_hires.png",
+        topHits: [
+          { name: "Giratina V", tag: "Alt Art / 頭號大獎", image: "https://images.pokemontcg.io/swsh11/186_hires.png" },
+          { name: "Aerodactyl V", tag: "Alt Art", image: "https://images.pokemontcg.io/swsh11/180_hires.png" },
+          { name: "Rotom V", tag: "Alt Art", image: "https://images.pokemontcg.io/swsh11/177_hires.png" },
+          { name: "Pikachu VMAX", tag: "Trainer Gallery", image: "https://images.pokemontcg.io/swsh11tg/TG17_hires.png" }
+        ]
+      },
+      {
+        id: 10,
+        name: "Paldean Fates",
+        type: "TW650",
+        stock: "6包",
+        desc: "Shiny 系列中 Charizard ex、Mew ex、Gardevoir ex、Miraidon ex 都是熱門。",
+        cover: "https://www.blezonline.com/_next/image?url=https%3A%2F%2Ftwpbrxfgpzjmbxgwhljk.supabase.co%2Fstorage%2Fv1%2Fobject%2Fpublic%2Fcollectibles%2Fpublic%2FPOKEMON%2FSV45-PALDEAN_FATES.webp&w=1920&q=75",
+        coverFallback: "https://images.pokemontcg.io/sv4pt5/234_hires.png",
+        topHits: [
+          { name: "Charizard ex", tag: "Shiny SIR", image: "https://images.pokemontcg.io/sv4pt5/234_hires.png" },
+          { name: "Mew ex", tag: "Shiny SIR / Bubble Mew", image: "https://images.pokemontcg.io/sv4pt5/232_hires.png" },
+          { name: "Gardevoir ex", tag: "SIR", image: "https://images.pokemontcg.io/sv4pt5/233_hires.png" },
+          { name: "Miraidon ex", tag: "Shiny 熱門卡", image: "https://images.pokemontcg.io/sv4pt5/243_hires.png" }
+        ]
+      },
+      {
+        id: 11,
+        name: "Ascended Heroes",
+        type: "TW500",
+        stock: "7包",
+        desc: "年度最強卡包。",
+        cover: "https://www.blezonline.com/_next/image?url=https%3A%2F%2Ftwpbrxfgpzjmbxgwhljk.supabase.co%2Fstorage%2Fv1%2Fobject%2Fpublic%2Fcollectibles%2Fpublic%2FPOKEMON%2FME25-ASCENDED_HEROES.webp&w=1920&q=75",
+        coverFallback: "https://www.pokebeach.com/news/2026/01/284-Mega-Gengar-ex-Ascended-Heroes-143x200.jpg",
+        topHits: [
+          { name: "Mega Meganium ex (272/217)", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/676084_in_1000x1000.jpg" },
+          { name: "Mega Emboar ex (273/217)", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/676085_in_1000x1000.jpg" },
+          { name: "Mega Feraligatr ex (274/217)", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/676086_in_1000x1000.jpg" },
+          { name: "Mega Froslass ex (275/217)", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/676087_in_1000x1000.jpg" },
+          { name: "Pikachu ex (276/217)", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/676088_in_1000x1000.jpg" },
+          { name: "Pikachu ex (277/217)", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/676089_in_1000x1000.jpg" },
+          { name: "Mega Eelektross ex (278/217)", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/676090_in_1000x1000.jpg" },
+          { name: "Iono's Bellibolt ex (279/217)", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/676091_in_1000x1000.jpg" },
+          { name: "Lillie's Clefairy ex (280/217)", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/676092_in_1000x1000.jpg" },
+          { name: "Team Rocket's Mewtwo ex (281/217)", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/676093_in_1000x1000.jpg" },
+          { name: "Mega Diancie ex (282/217)", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/676094_in_1000x1000.jpg" },
+          { name: "Mega Hawlucha ex (283/217)", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/676095_in_1000x1000.jpg" },
+          { name: "Mega Gengar ex (284/217)", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/676096_in_1000x1000.jpg" },
+          { name: "Mega Scrafty ex (285/217)", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/676097_in_1000x1000.jpg" },
+          { name: "N's Zoroark ex (286/217)", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/676098_in_1000x1000.jpg" },
+          { name: "Marnie's Grimmsnarl ex (287/217)", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/676099_in_1000x1000.jpg" },
+          { name: "Fezandipiti ex (288/217)", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/676100_in_1000x1000.jpg" },
+          { name: "Steven's Metagross ex (289/217)", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/676101_in_1000x1000.jpg" },
+          { name: "Mega Dragonite ex (290/217)", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/676102_in_1000x1000.jpg" },
+          { name: "Canari (291/217)", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/676103_in_1000x1000.jpg" },
+          { name: "Iris's Fighting Spirit (292/217)", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/676104_in_1000x1000.jpg" },
+          { name: "Surfer (293/217)", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/676105_in_1000x1000.jpg" }
+        ]
+      },
+      {
+        id: 12,
+        name: "Fusion Strike",
+        type: "TW650",
+        stock: "3包",
+        desc: "耿鬼 VMAX 與伊布異圖長年都是 Fusion Strike 的焦點。",
+        cover: "https://www.blezonline.com/_next/image?url=https%3A%2F%2Ftwpbrxfgpzjmbxgwhljk.supabase.co%2Fstorage%2Fv1%2Fobject%2Fpublic%2Fcollectibles%2Fpublic%2FPOKEMON%2FSWSH8-FUSION_STRIKE.webp&w=1920&q=75",
+        coverFallback: "https://images.pokemontcg.io/swsh8/271_hires.png",
+        topHits: [
+          { name: "Gengar VMAX", tag: "Alt Art / 頭號大獎", image: "https://images.pokemontcg.io/swsh8/271_hires.png" },
+          { name: "Espeon VMAX", tag: "Alt Art", image: "https://images.pokemontcg.io/swsh8/270_hires.png" },
+          { name: "Celebi V", tag: "Alt Art", image: "https://images.pokemontcg.io/swsh8/245_hires.png" },
+          { name: "Mew VMAX", tag: "高人氣", image: "https://images.pokemontcg.io/swsh8/269_hires.png" }
+        ]
+      },
+      {
+        id: 13,
+        name: "Brilliant Stars",
+        type: "TW450",
+        stock: "5包",
+        desc: "Charizard V 異圖與 Arceus V 異圖是 Brilliant Stars 的代表大獎。",
+        cover: "https://www.blezonline.com/_next/image?url=https%3A%2F%2Ftwpbrxfgpzjmbxgwhljk.supabase.co%2Fstorage%2Fv1%2Fobject%2Fpublic%2Fcollectibles%2Fpublic%2FPOKEMON%2FSWSH9-BRILLIANT_STARS.webp&w=1920&q=75",
+        coverFallback: "https://images.pokemontcg.io/swsh9/154_hires.png",
+        topHits: [
+          { name: "Charizard V", tag: "Alt Art / 頭號大獎", image: "https://images.pokemontcg.io/swsh9/154_hires.png" },
+          { name: "Arceus V", tag: "Alt Art", image: "https://images.pokemontcg.io/swsh9/166_hires.png" },
+          { name: "Charizard VSTAR", tag: "Rainbow Rare", image: "https://images.pokemontcg.io/swsh9/174_hires.png" },
+          { name: "Umbreon V", tag: "Trainer Gallery", image: "https://images.pokemontcg.io/swsh9tg/TG22_hires.png" }
+        ]
+      },
+      {
+        id: 14,
+        name: "Unbroken Bonds (Sleeved Pack)",
+        type: "TW2800",
+        stock: "1包",
+        desc: "絕版日月熱門彈。",
+        cover: "https://www.blezonline.com/_next/image?url=https%3A%2F%2Ftwpbrxfgpzjmbxgwhljk.supabase.co%2Fstorage%2Fv1%2Fobject%2Fpublic%2Fcollectibles%2Fpublic%2FPOKEMON%2FUNBROKEN_BONDS_SLEEVED_PACK.webp&w=1920&q=75",
+        coverFallback: "https://images.pokemontcg.io/sm10/192_hires.png",
+        topHits: [
+          { name: "Reshiram & Charizard-GX", tag: "Full Art / 頭號大獎", image: "https://images.pokemontcg.io/sm10/192_hires.png" },
+          { name: "Gardevoir & Sylveon-GX", tag: "Secret Rare", image: "https://images.pokemontcg.io/sm10/205_hires.png" },
+          { name: "Lucario & Melmetal-GX", tag: "Secret Rare", image: "https://images.pokemontcg.io/sm10/203_hires.png" },
+          { name: "Marshadow & Machamp-GX", tag: "高人氣 Tag Team", image: "https://images.pokemontcg.io/sm10/199_hires.png" }
+        ]
+      },
+      {
+        id: 15,
+        name: "Mega Evolutions",
+        type: "TW350",
+        stock: "36包",
+        desc: "金路卡利歐與金沙奈朵。",
+        cover: "https://www.blezonline.com/_next/image?url=https%3A%2F%2Ftwpbrxfgpzjmbxgwhljk.supabase.co%2Fstorage%2Fv1%2Fobject%2Fpublic%2Fcollectibles%2Fpublic%2FPOKEMON%2FME1-MEGA_EVOLUTION.webp&w=828&q=75",
+        coverFallback: "https://www.pokebeach.com/news/2025/07/Pokemon_Trading_Card_Game_Mega_Gardevoir_ex_EN-221x300.png",
+        topHits: [
+		  { name: "Mega Lucario ex", tag: "Gold", image: "https://tcgplayer-cdn.tcgplayer.com/product/654527_in_1000x1000.jpg" },
+          { name: "Mega Lucario ex", tag: "SIR", image: "https://www.pokebeach.com/news/2025/07/Pokemon_Trading_Card_Game_Mega_Lucario_ex_EN-221x300.png" },
+          { name: "Mega Gardevoir ex", tag: "SIR", image: "https://www.pokebeach.com/news/2025/07/Pokemon_Trading_Card_Game_Mega_Gardevoir_ex_EN-221x300.png" },
+          { name: "Mega Venusaur ex", tag: "SIR", image: "https://www.pokebeach.com/news/2025/07/Pokemon_Trading_Card_Game_Mega_Venusaur_ex_EN-221x300.png" },
+          { name: "Mega Kangaskhan ex", tag: "SIR", image: "https://www.pokebeach.com/news/2025/07/Pokemon_Trading_Card_Game_Mega_Kangaskhan_ex_EN-221x300.png" }
+        ]
+      },
+	  
+	  {
+  id: 16,
+  name: "Ascended Heroes ETB",
+  type: "TW5000",
+  stock: "5盒",
+  desc: "Ascended Heroes 精英訓練盒，適合收藏與開盒。",
+  cover: "https://github.com/zx1001826-cloud/BrianLife.github.io/blob/main/Gemini_Generated_Image_pq8s7rpq8s7rpq8s.png?raw=true",
+  coverFallback: "https://www.pokebeach.com/news/2026/01/284-Mega-Gengar-ex-Ascended-Heroes-143x200.jpg",
+  topHits: [
+    { name: "Pikachu ex (277/217)", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/676089_in_1000x1000.jpg" },
+    { name: "Mega Gengar ex (284/217)", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/676096_in_1000x1000.jpg" },
+    { name: "Team Rocket's Mewtwo ex (281/217)", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/676093_in_1000x1000.jpg" },
+    { name: "Mega Dragonite ex (290/217)", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/676102_in_1000x1000.jpg" }
+  ]
+ }
+    ];
+
+    const catalog = document.getElementById("catalog");
+    const modal = document.getElementById("productModal");
+    const closeModal = document.getElementById("closeModal");
+    const modalTitle = document.getElementById("modalTitle");
+    const modalDesc = document.getElementById("modalDesc");
+    const modalCover = document.getElementById("modalCover");
+    const modalType = document.getElementById("modalType");
+    const modalStock = document.getElementById("modalStock");
+    const modalPrizes = document.getElementById("modalPrizes");
+    const modalLineLink = document.getElementById("modalLineLink");
+    const modalNotice = document.getElementById("modalNotice");
+    const imageLightbox = document.getElementById("imageLightbox");
+    const lightboxImage = document.getElementById("lightboxImage");
+    const lightboxCaption = document.getElementById("lightboxCaption");
+    const lightboxClose = document.getElementById("lightboxClose");
+
+    function createPlaceholderImage(title, subtitle = "POKÉMON TCG") {
+      const safeTitle = String(title || "Pokemon Pack").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+      const safeSubtitle = String(subtitle || "Card").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+      const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="900" height="1200" viewBox="0 0 900 1200"><rect width="900" height="1200" rx="48" fill="#0a0a0c"/><rect x="34" y="34" width="832" height="1132" rx="36" fill="none" stroke="#d4af37" stroke-width="4" opacity="0.75"/><text x="70" y="130" fill="#d4af37" font-size="34" font-family="Arial">BRIAN CARD SHOP</text><text x="70" y="250" fill="#ffffff" font-size="74" font-weight="700" font-family="Arial">${safeTitle}</text><text x="70" y="320" fill="#cfcfcf" font-size="32" font-family="Arial">${safeSubtitle}</text><rect x="70" y="390" width="760" height="520" rx="28" fill="#111114" stroke="#2a2a2f" stroke-width="3"/><circle cx="450" cy="650" r="150" fill="none" stroke="#d4af37" stroke-width="10" opacity="0.85"/><circle cx="450" cy="650" r="40" fill="#d4af37" opacity="0.9"/><line x1="300" y1="650" x2="600" y2="650" stroke="#d4af37" stroke-width="12" opacity="0.8"/></svg>`;
+      return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
+    }
+
+    function imageWithFallback(primary, fallback, title, subtitle) {
+      return primary || fallback || createPlaceholderImage(title, subtitle);
+    }
+
+    function openLightbox(src, caption) {
+      lightboxImage.src = src;
+      lightboxCaption.textContent = caption || "";
+      imageLightbox.classList.add("show");
+      imageLightbox.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeLightbox() {
+      imageLightbox.classList.remove("show");
+      imageLightbox.setAttribute("aria-hidden", "true");
+      lightboxImage.src = "";
+      lightboxCaption.textContent = "";
+      if (!modal.classList.contains("show")) document.body.style.overflow = "";
+    }
+
+    function bindZoomableImages(scope = document) {
+      scope.querySelectorAll(".zoomable").forEach((img) => {
+        img.onclick = (event) => {
+          event.stopPropagation();
+          openLightbox(img.currentSrc || img.src, img.dataset.caption || img.alt || "");
+        };
+      });
+    }
+
+    function renderCatalog() {
+      catalog.innerHTML = products.map(product => `
+        <article class="item-card" data-id="${product.id}">
+          <div class="thumb-wrap">
+            <span class="type-badge">${product.type}</span>
+            <span class="stock-badge">${product.stock}</span>
+            <img class="zoomable" data-caption="${product.name}｜美版封面圖" src="${imageWithFallback(product.cover, product.coverFallback, product.name, product.type)}" alt="${product.name} 封面" onerror="this.onerror=null; this.src=createPlaceholderImage('${product.name.replace(/'/g, "\'")}', '${product.type.replace(/'/g, "\'")}');">
+          </div>
+          <div class="card-body">
+            <h4>${product.name}</h4>
+            <p>${product.desc}</p>
+            <div class="chase-preview">${product.topHits.slice(0, 3).map(hit => `<span class="chase-pill">${hit.name}</span>`).join("")}</div>
+            <div class="cta-row"><span class="mini-link">點擊查看大獎</span><span class="mini-link">LINE 詢問</span></div>
+          </div>
+        </article>
+      `).join("");
+
+      bindZoomableImages(catalog);
+      document.querySelectorAll(".item-card").forEach(card => {
+        card.addEventListener("click", () => {
+          const productId = Number(card.dataset.id);
+          const product = products.find(item => item.id === productId);
+          if (product) openProduct(product);
+        });
+      });
+    }
+
+    function openProduct(product) {
+      modalTitle.textContent = product.name;
+      modalDesc.textContent = product.desc;
+      modalCover.src = imageWithFallback(product.cover, product.coverFallback, product.name, product.type);
+      modalCover.alt = `${product.name} 封面圖`;
+      modalCover.classList.add("zoomable");
+      modalCover.dataset.caption = `${product.name}｜美版封面圖`;
+      modalCover.onerror = () => { modalCover.onerror = null; modalCover.src = createPlaceholderImage(product.name, product.type); };
+      modalType.textContent = product.type;
+      modalStock.textContent = product.stock;
+      modalLineLink.href = lineUrl;
+      modalNotice.textContent = `想詢問 ${product.name} 的價格、盒況、封面實拍或其他系列，也可以直接加 LINE。`;
+
+      modalPrizes.innerHTML = product.topHits.map(hit => `
+        <div class="prize-card">
+          <img class="zoomable" data-caption="${product.name}｜${hit.name}｜美版大獎圖" src="${imageWithFallback(hit.image, product.coverFallback, hit.name, hit.tag)}" alt="${hit.name}" onerror="this.onerror=null; this.src=createPlaceholderImage('${hit.name.replace(/'/g, "\'")}', '${hit.tag.replace(/'/g, "\'")}');">
+          <div class="text"><strong>${hit.name}</strong><span>${hit.tag}</span></div>
+        </div>
+      `).join("");
+
+      bindZoomableImages(modal);
+      modal.classList.add("show");
+      modal.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+    }
+
+    function hideModal() {
+      modal.classList.remove("show");
+      modal.setAttribute("aria-hidden", "true");
+      if (!imageLightbox.classList.contains("show")) document.body.style.overflow = "";
+    }
+
+    lightboxClose.addEventListener("click", closeLightbox);
+    imageLightbox.addEventListener("click", (event) => { if (event.target === imageLightbox) closeLightbox(); });
+    closeModal.addEventListener("click", hideModal);
+    modal.addEventListener("click", (event) => { if (event.target === modal) hideModal(); });
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        if (imageLightbox.classList.contains("show")) closeLightbox(); else hideModal();
+      }
+    });
+
+    renderCatalog();
+  </script>
+</body>
+</html>
