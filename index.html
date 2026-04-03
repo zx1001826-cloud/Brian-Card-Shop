@@ -56,7 +56,7 @@
       border-radius: 999px; background: linear-gradient(135deg, #09d25e, #06b84f); color: #fff;
       font-weight: 800; box-shadow: 0 10px 30px rgba(6,199,85,0.25);
     }
-    .hero-grid { display: grid; grid-template-columns: 1.3fr 0.7fr; gap: 18px; }
+    .hero-grid { display: grid; grid-template-columns: 1fr; gap: 18px; }
     .hero-card {
       border: 1px solid var(--border); border-radius: 24px; background: rgba(255,255,255,0.03);
       padding: 22px; backdrop-filter: blur(8px);
@@ -138,6 +138,39 @@
     .prize-card .text { padding: 12px; }
     .prize-card strong { display: block; font-size: 0.92rem; line-height: 1.45; color: #fff; }
     .prize-card span { display: block; margin-top: 5px; font-size: 0.78rem; color: var(--gold); }
+
+    .hit-links {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+    .hit-link-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 800;
+      text-decoration: none;
+      transition: transform 0.2s ease, opacity 0.2s ease, border-color 0.2s ease;
+    }
+    .hit-link-btn:hover {
+      transform: translateY(-2px);
+      opacity: 0.92;
+    }
+    .hit-link-btn.tcg {
+      background: rgba(212,175,55,0.12);
+      color: #f3dc8d;
+      border: 1px solid rgba(212,175,55,0.28);
+    }
+    .hit-link-btn.ebay {
+      background: rgba(255,255,255,0.06);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+
     .buy-box {
       margin-top: 18px; display: flex; justify-content: space-between; align-items: center; gap: 14px; flex-wrap: wrap;
       padding: 16px 18px; border-radius: 20px; background: rgba(6,199,85,0.08); border: 1px solid rgba(6,199,85,0.22);
@@ -200,7 +233,7 @@
           <div class="hero-card">
             <h2>開卡開到手軟</h2>
             <p>每一包都是希望,一起加入美版。</p>
-          
+          </div>
         </div>
       </div>
     </section>
@@ -240,7 +273,7 @@
 
           <div class="prize-title">
             <h3>本系列大獎</h3>
-            <span style="color: var(--text-soft); font-size: 0.9rem;">可直接展示重點 chase 卡</span>
+            <span style="color: var(--text-soft); font-size: 0.9rem;">可直接精準查價</span>
           </div>
           <div class="prize-grid" id="modalPrizes"></div>
 
@@ -274,10 +307,8 @@
         cover: "https://www.blezonline.com/_next/image?url=https%3A%2F%2Ftwpbrxfgpzjmbxgwhljk.supabase.co%2Fstorage%2Fv1%2Fobject%2Fpublic%2Fcollectibles%2Fpublic%2FPOKEMON%2FME2-PHANTASMAL_FLAMES.webp&w=1920&q=75",
         coverFallback: "https://www.pokebeach.com/news/2025/10/129-Dawn-141x200.jpg",
         topHits: [
-          { name: "Mega Charizard X ex", tag: "SIR / 頭號大獎🔥", image: "https://storage.googleapis.com/images.pricecharting.com/fsbqea5aod5mejp5/1600.jpg" },
-          { name: "Dawn", tag: "SIR Supporter", image: "https://i.ebayimg.com/images/g/1x8AAeSwnQ5pw3eq/s-l1600.webp" },
-          { name: "Mega Charizard ex", tag: "Gold Hyper Rare", image: "https://i.ebayimg.com/images/g/cMEAAeSwufRpXpHm/s-l1600.webp" },
-          { name: "Mega Gengar ex", tag: "人氣大獎", image: "https://storage.googleapis.com/images.pricecharting.com/2ylvnjuqaptnrtgq/1600.jpg" }
+          { name: "Mega Charizard X ex", number: "125/094", tag: "SIR / 頭號大獎🔥", image: "https://storage.googleapis.com/images.pricecharting.com/fsbqea5aod5mejp5/1600.jpg", tcgProductId: "", ebayQuery: "\"Mega Charizard X ex\" \"125/094\"" },
+          { name: "Mega Charizard ex", number: "130/094", tag: "Gold Hyper Rare", image: "https://i.ebayimg.com/images/g/cMEAAeSwufRpXpHm/s-l1600.webp", tcgProductId: "", ebayQuery: "\"Mega Charizard ex\" \"130/094\"" }
         ]
       },
       {
@@ -289,10 +320,10 @@
         cover: "https://www.blezonline.com/_next/image?url=https%3A%2F%2Ftwpbrxfgpzjmbxgwhljk.supabase.co%2Fstorage%2Fv1%2Fobject%2Fpublic%2Fcollectibles%2Fpublic%2FPOKEMON%2FSV-151_EXPANSION.webp&w=1920&q=75",
         coverFallback: "https://images.pokemontcg.io/sv3pt5/199_hires.png",
         topHits: [
-          { name: "Charizard ex", tag: "SIR", image: "https://images.pokemontcg.io/sv3pt5/199_hires.png" },
-          { name: "Blastoise ex", tag: "SIR", image: "https://images.pokemontcg.io/sv3pt5/200_hires.png" },
-          { name: "Venusaur ex", tag: "SIR", image: "https://images.pokemontcg.io/sv3pt5/198_hires.png" },
-          { name: "Zapdos ex", tag: "SIR", image: "https://images.pokemontcg.io/sv3pt5/202_hires.png" }
+          { name: "Charizard ex", number: "199/165", tag: "SIR", image: "https://images.pokemontcg.io/sv3pt5/199_hires.png", tcgProductId: "", ebayQuery: "\"Charizard ex\" \"199/165\"" },
+          { name: "Blastoise ex", number: "200/165", tag: "SIR", image: "https://images.pokemontcg.io/sv3pt5/200_hires.png", tcgProductId: "", ebayQuery: "\"Blastoise ex\" \"200/165\"" },
+          { name: "Venusaur ex", number: "198/165", tag: "SIR", image: "https://images.pokemontcg.io/sv3pt5/198_hires.png", tcgProductId: "", ebayQuery: "\"Venusaur ex\" \"198/165\"" },
+          { name: "Zapdos ex", number: "202/165", tag: "SIR", image: "https://images.pokemontcg.io/sv3pt5/202_hires.png", tcgProductId: "", ebayQuery: "\"Zapdos ex\" \"202/165\"" }
         ]
       },
       {
@@ -304,10 +335,11 @@
         cover: "https://www.blezonline.com/_next/image?url=https%3A%2F%2Ftwpbrxfgpzjmbxgwhljk.supabase.co%2Fstorage%2Fv1%2Fobject%2Fpublic%2Fcollectibles%2Fpublic%2FPOKEMON%2FSV85-PRISMATIC_EVOLUTIONS.webp&w=1920&q=75",
         coverFallback: "https://images.pokemontcg.io/sv8pt5/161_hires.png",
         topHits: [
-          { name: "Umbreon ex", tag: "SIR / 頭號熱門", image: "https://images.pokemontcg.io/sv8pt5/161_hires.png" },
-          { name: "Sylveon ex", tag: "SIR", image: "https://images.pokemontcg.io/sv8pt5/156_hires.png" },
-          { name: "Eevee ex", tag: "SIR", image: "https://images.pokemontcg.io/sv8pt5/146_hires.png" },
-          { name: "Espeon ex", tag: "高人氣 SIR", image: "https://images.pokemontcg.io/sv8pt5/155_hires.png" }
+          { name: "Umbreon ex", number: "161/131", tag: "SIR / 頭號熱門", image: "https://images.pokemontcg.io/sv8pt5/161_hires.png", tcgProductId: "", ebayQuery: "\"Umbreon ex\" \"161/131\"" },
+          { name: "Sylveon ex", number: "156/131", tag: "SIR", image: "https://images.pokemontcg.io/sv8pt5/156_hires.png", tcgProductId: "", ebayQuery: "\"Sylveon ex\" \"156/131\"" },
+		  { name: "Leafeon ex", number: "144/131", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/610499_in_1000x1000.jpg", tcgProductId: "", ebayQuery: "\"Leafeon\" \"144/131\"" },
+          { name: "Flareon ex", number: "146/131", tag: "SIR", image: "https://images.pokemontcg.io/sv8pt5/146_hires.png", tcgProductId: "", ebayQuery: "\"Flareon ex\" \"146/131\"" },
+          { name: "Espeon ex", number: "155/131", tag: "高人氣 SIR", image: "https://images.pokemontcg.io/sv8pt5/155_hires.png", tcgProductId: "", ebayQuery: "\"Espeon ex\" \"155/131\"" }
         ]
       },
       {
@@ -319,10 +351,11 @@
         cover: "https://www.blezonline.com/_next/image?url=https%3A%2F%2Ftwpbrxfgpzjmbxgwhljk.supabase.co%2Fstorage%2Fv1%2Fobject%2Fpublic%2Fcollectibles%2Fpublic%2FPOKEMON%2FSWSH6-CHILLING_REIGN.webp&w=1920&q=75",
         coverFallback: "https://images.pokemontcg.io/swsh6/177_hires.png",
         topHits: [
-          { name: "Galarian Moltres V", tag: "Alt Art / 頭號大獎", image: "https://images.pokemontcg.io/swsh6/177_hires.png" },
-          { name: "Blaziken VMAX", tag: "Alt Art", image: "https://images.pokemontcg.io/swsh6/201_hires.png" },
-          { name: "Galarian Articuno V", tag: "Alt Art", image: "https://images.pokemontcg.io/swsh6/170_hires.png" },
-          { name: "Galarian Zapdos V", tag: "Alt Art", image: "https://images.pokemontcg.io/swsh6/174_hires.png" }
+		  { name: "Blaziken VMAX", number: "201/198", tag: "Alt Art", image: "https://images.pokemontcg.io/swsh6/201_hires.png", tcgProductId: "", ebayQuery: "\"Blaziken VMAX\" \"201/198\"" },
+          { name: "Galarian Moltres V", number: "177/198", tag: "Alt Art / 頭號大獎", image: "https://images.pokemontcg.io/swsh6/177_hires.png", tcgProductId: "", ebayQuery: "\"Galarian Moltres V\" \"177/198\"" },
+		  { name: "Snorlax", number: "224/198", tag: "Alt Art", image: "https://tcgplayer-cdn.tcgplayer.com/product/241875_in_1000x1000.jpg", tcgProductId: "", ebayQuery: "\"Snorlax\" \"224/198\"" },
+          { name: "Galarian Articuno V", number: "170/198", tag: "Alt Art", image: "https://images.pokemontcg.io/swsh6/170_hires.png", tcgProductId: "", ebayQuery: "\"Galarian Articuno V\" \"170/198\"" },
+          { name: "Galarian Zapdos V", number: "174/198", tag: "Alt Art", image: "https://images.pokemontcg.io/swsh6/174_hires.png", tcgProductId: "", ebayQuery: "\"Galarian Zapdos V\" \"174/198\"" }
         ]
       },
       {
@@ -334,10 +367,10 @@
         cover: "https://www.blezonline.com/_next/image?url=https%3A%2F%2Ftwpbrxfgpzjmbxgwhljk.supabase.co%2Fstorage%2Fv1%2Fobject%2Fpublic%2Fcollectibles%2Fpublic%2FPOKEMON%2FSV10-DESTINED_RIVALS.webp&w=1920&q=75",
         coverFallback: "https://www.pokebeach.com/news/2025/05/SV10_EN_232-144x200.png",
         topHits: [
-          { name: "Team Rocket's Crobat ex", tag: "高價人氣卡", image: "https://tcgplayer-cdn.tcgplayer.com/product/633031_in_1000x1000.jpg" },
-          { name: "Cynthia's Garchomp ex", tag: "SIR / 高人氣", image: "https://www.pokebeach.com/news/2025/05/SV10_EN_232-144x200.png" },
-          { name: "Ethan's Ho-Oh ex", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/633030_in_1000x1000.jpg" },
-          { name: "Team Rocket's Mewtwo ex", tag: "話題卡", image: "https://tcgplayer-cdn.tcgplayer.com/product/633040_in_1000x1000.jpg" }
+          { name: "Team Rocket's Crobat ex", number: "231/182", tag: "高價人氣卡", image: "https://tcgplayer-cdn.tcgplayer.com/product/633031_in_1000x1000.jpg", tcgProductId: "633031", ebayQuery: "\"Team Rocket's Crobat ex\" \"231/182\"" },
+          { name: "Cynthia's Garchomp ex", number: "232/182", tag: "SIR / 高人氣", image: "https://www.pokebeach.com/news/2025/05/SV10_EN_232-144x200.png", tcgProductId: "", ebayQuery: "\"Cynthia's Garchomp ex\" \"232/182\"" },
+          { name: "Ethan's Ho-Oh ex", number: "230/182", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/633030_in_1000x1000.jpg", tcgProductId: "633030", ebayQuery: "\"Ethan's Ho-Oh ex\" \"230/182\"" },
+          { name: "Team Rocket's Mewtwo ex", number: "240/182", tag: "話題卡", image: "https://tcgplayer-cdn.tcgplayer.com/product/633040_in_1000x1000.jpg", tcgProductId: "633040", ebayQuery: "\"Team Rocket's Mewtwo ex\" \"240/182\"" }
         ]
       },
       {
@@ -349,10 +382,10 @@
         cover: "https://www.blezonline.com/_next/image?url=https%3A%2F%2Ftwpbrxfgpzjmbxgwhljk.supabase.co%2Fstorage%2Fv1%2Fobject%2Fpublic%2Fcollectibles%2Fpublic%2FPOKEMON%2FSWSH125-CROWN_ZENITH.webp&w=1920&q=75",
         coverFallback: "https://images.pokemontcg.io/swsh12tg/GG69_hires.png",
         topHits: [
-          { name: "Giratina VSTAR", tag: "Galarian Gallery Gold", image: "https://tcgplayer-cdn.tcgplayer.com/product/478100_in_1000x1000.jpg" },
-          { name: "Arceus VSTAR", tag: "Galarian Gallery Gold", image: "https://tcgplayer-cdn.tcgplayer.com/product/478101_in_1000x1000.jpg" },
-          { name: "Mewtwo VSTAR", tag: "GG 熱門卡", image: "https://tcgplayer-cdn.tcgplayer.com/product/477057_in_1000x1000.jpg" },
-          { name: "Pikachu", tag: "Secret Rare", image: "https://tcgplayer-cdn.tcgplayer.com/product/478103_in_1000x1000.jpg" }
+          { name: "Giratina VSTAR", number: "GG69/GG70", tag: "Galarian Gallery Gold", image: "https://tcgplayer-cdn.tcgplayer.com/product/478100_in_1000x1000.jpg", tcgProductId: "478100", ebayQuery: "\"Giratina VSTAR\" \"GG69/GG70\"" },
+          { name: "Arceus VSTAR", number: "GG70/GG70", tag: "Galarian Gallery Gold", image: "https://tcgplayer-cdn.tcgplayer.com/product/478101_in_1000x1000.jpg", tcgProductId: "478101", ebayQuery: "\"Arceus VSTAR\" \"GG70/GG70\"" },
+          { name: "Mewtwo VSTAR", number: "GG40/GG70", tag: "GG 熱門卡", image: "https://tcgplayer-cdn.tcgplayer.com/product/477057_in_1000x1000.jpg", tcgProductId: "477057", ebayQuery: "\"Mewtwo VSTAR\" \"GG40/GG70\"" },
+          { name: "Pikachu", number: "160/159", tag: "Secret Rare", image: "https://tcgplayer-cdn.tcgplayer.com/product/478103_in_1000x1000.jpg", tcgProductId: "478103", ebayQuery: "\"Pikachu\" \"160/159\"" }
         ]
       },
       {
@@ -364,10 +397,10 @@
         cover: "https://www.blezonline.com/_next/image?url=https%3A%2F%2Ftwpbrxfgpzjmbxgwhljk.supabase.co%2Fstorage%2Fv1%2Fobject%2Fpublic%2Fcollectibles%2Fpublic%2FPOKEMON%2FME3-PERFECT_ORDER.webp&w=1920&q=75",
         coverFallback: "https://www.pokebeach.com/news/2026/03/123-Rosas-Encouragement-141x200.jpg",
         topHits: [
-          { name: "Mega Zygarde ex", tag: "SIR / 頭號大獎", image: "https://tcgplayer-cdn.tcgplayer.com/product/684339_in_1000x1000.jpg" },
-          { name: "Rosa's Encouragement", tag: "SIR Supporter", image: "https://tcgplayer-cdn.tcgplayer.com/product/684392_in_1000x1000.jpg" },
-          { name: "Mega Starmie ex", tag: "高人氣卡", image: "https://tcgplayer-cdn.tcgplayer.com/product/684362_in_1000x1000.jpg" },
-          { name: "Mega Clefable ex", tag: "高人氣卡", image: "https://tcgplayer-cdn.tcgplayer.com/product/684385_in_1000x1000.jpg" }
+          { name: "Mega Zygarde ex", number: "120/088", tag: "SIR / 頭號大獎", image: "https://tcgplayer-cdn.tcgplayer.com/product/684339_in_1000x1000.jpg", tcgProductId: "684339", ebayQuery: "\"Mega Zygarde ex\" \"120/088\"" },
+          { name: "Rosa's Encouragement", number: "123/088", tag: "SIR Supporter", image: "https://tcgplayer-cdn.tcgplayer.com/product/684392_in_1000x1000.jpg", tcgProductId: "684392", ebayQuery: "\"Rosa's Encouragement\" \"123/088\"" },
+          { name: "Mega Starmie ex", number: "118/088", tag: "高人氣卡", image: "https://tcgplayer-cdn.tcgplayer.com/product/684362_in_1000x1000.jpg", tcgProductId: "684362", ebayQuery: "\"Mega Starmie ex\" \"118/088\"" },
+          { name: "Mega Clefable ex", number: "119/088", tag: "高人氣卡", image: "https://tcgplayer-cdn.tcgplayer.com/product/684385_in_1000x1000.jpg", tcgProductId: "684385", ebayQuery: "\"Mega Clefable ex\" \"119/088\"" }
         ]
       },
       {
@@ -379,10 +412,10 @@
         cover: "https://www.blezonline.com/_next/image?url=https%3A%2F%2Ftwpbrxfgpzjmbxgwhljk.supabase.co%2Fstorage%2Fv1%2Fobject%2Fpublic%2Fcollectibles%2Fpublic%2FPOKEMON%2FSWSH12-SILVER_TEMPEST.webp&w=1920&q=75",
         coverFallback: "https://images.pokemontcg.io/swsh12/186_hires.png",
         topHits: [
-          { name: "Lugia V", tag: "Alt Art / 頭號大獎", image: "https://images.pokemontcg.io/swsh12/186_hires.png" },
-          { name: "Regidrago V", tag: "Alt Art", image: "https://images.pokemontcg.io/swsh12/184_hires.png" },
-          { name: "Serena", tag: "Full Art Supporter", image: "https://images.pokemontcg.io/swsh12/207_hires.png" },
-          { name: "Unown V", tag: "Alt Art", image: "https://images.pokemontcg.io/swsh12/176_hires.png" }
+          { name: "Lugia V", number: "199/195", tag: "Alt Art / 頭號大獎", image: "https://images.pokemontcg.io/swsh12/186_hires.png", tcgProductId: "", ebayQuery: "\"Lugia V\" \"199/195\"" },
+		  { name: "Rayquaza VMAX", number: "TG20/TG30", tag: "Alt Art", image: "https://tcgplayer-cdn.tcgplayer.com/product/452034_in_1000x1000.jpg", tcgProductId: "", ebayQuery: "\"Regidrago V\" \"TG20/TG30\"" }
+          
+         
         ]
       },
       {
@@ -394,10 +427,9 @@
         cover: "https://www.blezonline.com/_next/image?url=https%3A%2F%2Ftwpbrxfgpzjmbxgwhljk.supabase.co%2Fstorage%2Fv1%2Fobject%2Fpublic%2Fcollectibles%2Fpublic%2FPOKEMON%2FSWSH11-LOST_ORIGIN.webp&w=1920&q=75",
         coverFallback: "https://images.pokemontcg.io/swsh11/186_hires.png",
         topHits: [
-          { name: "Giratina V", tag: "Alt Art / 頭號大獎", image: "https://images.pokemontcg.io/swsh11/186_hires.png" },
-          { name: "Aerodactyl V", tag: "Alt Art", image: "https://images.pokemontcg.io/swsh11/180_hires.png" },
-          { name: "Rotom V", tag: "Alt Art", image: "https://images.pokemontcg.io/swsh11/177_hires.png" },
-          { name: "Pikachu VMAX", tag: "Trainer Gallery", image: "https://images.pokemontcg.io/swsh11tg/TG17_hires.png" }
+          { name: "Giratina V", number: "186/196", tag: "Alt Art / 頭號大獎", image: "https://images.pokemontcg.io/swsh11/186_hires.png", tcgProductId: "", ebayQuery: "\"Giratina V\" \"186/196\"" },
+          { name: "Aerodactyl V", number: "180/196", tag: "Alt Art", image: "https://images.pokemontcg.io/swsh11/180_hires.png", tcgProductId: "", ebayQuery: "\"Aerodactyl V\" \"180/196\"" },
+          { name: "Pikachu VMAX", number: "TG17/TG30", tag: "Trainer Gallery", image: "https://images.pokemontcg.io/swsh11tg/TG17_hires.png", tcgProductId: "", ebayQuery: "\"Pikachu VMAX\" \"TG17/TG30\"" }
         ]
       },
       {
@@ -409,10 +441,10 @@
         cover: "https://www.blezonline.com/_next/image?url=https%3A%2F%2Ftwpbrxfgpzjmbxgwhljk.supabase.co%2Fstorage%2Fv1%2Fobject%2Fpublic%2Fcollectibles%2Fpublic%2FPOKEMON%2FSV45-PALDEAN_FATES.webp&w=1920&q=75",
         coverFallback: "https://images.pokemontcg.io/sv4pt5/234_hires.png",
         topHits: [
-          { name: "Charizard ex", tag: "Shiny SIR", image: "https://images.pokemontcg.io/sv4pt5/234_hires.png" },
-          { name: "Mew ex", tag: "Shiny SIR / Bubble Mew", image: "https://images.pokemontcg.io/sv4pt5/232_hires.png" },
-          { name: "Gardevoir ex", tag: "SIR", image: "https://images.pokemontcg.io/sv4pt5/233_hires.png" },
-          { name: "Miraidon ex", tag: "Shiny 熱門卡", image: "https://images.pokemontcg.io/sv4pt5/243_hires.png" }
+          { name: "Mew ex", number: "232/091", tag: "Shiny SIR / Bubble Mew", image: "https://images.pokemontcg.io/sv4pt5/232_hires.png", tcgProductId: "", ebayQuery: "\"Mew ex\" \"232/091\"" },
+          { name: "Charizard ex", number: "234/091", tag: "Shiny SIR", image: "https://images.pokemontcg.io/sv4pt5/234_hires.png", tcgProductId: "", ebayQuery: "\"Charizard ex\" \"234/091\"" },
+          { name: "Gardevoir ex", number: "233/091", tag: "SIR", image: "https://images.pokemontcg.io/sv4pt5/233_hires.png", tcgProductId: "", ebayQuery: "\"Gardevoir ex\" \"233/091\"" },
+          { name: "Miraidon ex", number: "243/091", tag: "Shiny 熱門卡", image: "https://images.pokemontcg.io/sv4pt5/243_hires.png", tcgProductId: "", ebayQuery: "\"Miraidon ex\" \"243/091\"" }
         ]
       },
       {
@@ -424,28 +456,28 @@
         cover: "https://www.blezonline.com/_next/image?url=https%3A%2F%2Ftwpbrxfgpzjmbxgwhljk.supabase.co%2Fstorage%2Fv1%2Fobject%2Fpublic%2Fcollectibles%2Fpublic%2FPOKEMON%2FME25-ASCENDED_HEROES.webp&w=1920&q=75",
         coverFallback: "https://www.pokebeach.com/news/2026/01/284-Mega-Gengar-ex-Ascended-Heroes-143x200.jpg",
         topHits: [
-          { name: "Mega Meganium ex (272/217)", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/676084_in_1000x1000.jpg" },
-          { name: "Mega Emboar ex (273/217)", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/676085_in_1000x1000.jpg" },
-          { name: "Mega Feraligatr ex (274/217)", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/676086_in_1000x1000.jpg" },
-          { name: "Mega Froslass ex (275/217)", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/676087_in_1000x1000.jpg" },
-          { name: "Pikachu ex (276/217)", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/676088_in_1000x1000.jpg" },
-          { name: "Pikachu ex (277/217)", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/676089_in_1000x1000.jpg" },
-          { name: "Mega Eelektross ex (278/217)", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/676090_in_1000x1000.jpg" },
-          { name: "Iono's Bellibolt ex (279/217)", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/676091_in_1000x1000.jpg" },
-          { name: "Lillie's Clefairy ex (280/217)", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/676092_in_1000x1000.jpg" },
-          { name: "Team Rocket's Mewtwo ex (281/217)", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/676093_in_1000x1000.jpg" },
-          { name: "Mega Diancie ex (282/217)", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/676094_in_1000x1000.jpg" },
-          { name: "Mega Hawlucha ex (283/217)", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/676095_in_1000x1000.jpg" },
-          { name: "Mega Gengar ex (284/217)", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/676096_in_1000x1000.jpg" },
-          { name: "Mega Scrafty ex (285/217)", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/676097_in_1000x1000.jpg" },
-          { name: "N's Zoroark ex (286/217)", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/676098_in_1000x1000.jpg" },
-          { name: "Marnie's Grimmsnarl ex (287/217)", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/676099_in_1000x1000.jpg" },
-          { name: "Fezandipiti ex (288/217)", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/676100_in_1000x1000.jpg" },
-          { name: "Steven's Metagross ex (289/217)", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/676101_in_1000x1000.jpg" },
-          { name: "Mega Dragonite ex (290/217)", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/676102_in_1000x1000.jpg" },
-          { name: "Canari (291/217)", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/676103_in_1000x1000.jpg" },
-          { name: "Iris's Fighting Spirit (292/217)", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/676104_in_1000x1000.jpg" },
-          { name: "Surfer (293/217)", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/676105_in_1000x1000.jpg" }
+          { name: "Mega Meganium ex", number: "272/217", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/676084_in_1000x1000.jpg", tcgProductId: "676084", ebayQuery: "\"Mega Meganium ex\" \"272/217\"" },
+          { name: "Mega Emboar ex", number: "273/217", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/676085_in_1000x1000.jpg", tcgProductId: "676085", ebayQuery: "\"Mega Emboar ex\" \"273/217\"" },
+          { name: "Mega Feraligatr ex", number: "274/217", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/676086_in_1000x1000.jpg", tcgProductId: "676086", ebayQuery: "\"Mega Feraligatr ex\" \"274/217\"" },
+          { name: "Mega Froslass ex", number: "275/217", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/676087_in_1000x1000.jpg", tcgProductId: "676087", ebayQuery: "\"Mega Froslass ex\" \"275/217\"" },
+          { name: "Pikachu ex", number: "276/217", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/676088_in_1000x1000.jpg", tcgProductId: "676088", ebayQuery: "\"Pikachu ex\" \"276/217\"" },
+          { name: "Pikachu ex", number: "277/217", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/676089_in_1000x1000.jpg", tcgProductId: "676089", ebayQuery: "\"Pikachu ex\" \"277/217\"" },
+          { name: "Mega Eelektross ex", number: "278/217", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/676090_in_1000x1000.jpg", tcgProductId: "676090", ebayQuery: "\"Mega Eelektross ex\" \"278/217\"" },
+          { name: "Iono's Bellibolt ex", number: "279/217", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/676091_in_1000x1000.jpg", tcgProductId: "676091", ebayQuery: "\"Iono's Bellibolt ex\" \"279/217\"" },
+          { name: "Lillie's Clefairy ex", number: "280/217", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/676092_in_1000x1000.jpg", tcgProductId: "676092", ebayQuery: "\"Lillie's Clefairy ex\" \"280/217\"" },
+          { name: "Team Rocket's Mewtwo ex", number: "281/217", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/676093_in_1000x1000.jpg", tcgProductId: "676093", ebayQuery: "\"Team Rocket's Mewtwo ex\" \"281/217\"" },
+          { name: "Mega Diancie ex", number: "282/217", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/676094_in_1000x1000.jpg", tcgProductId: "676094", ebayQuery: "\"Mega Diancie ex\" \"282/217\"" },
+          { name: "Mega Hawlucha ex", number: "283/217", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/676095_in_1000x1000.jpg", tcgProductId: "676095", ebayQuery: "\"Mega Hawlucha ex\" \"283/217\"" },
+          { name: "Mega Gengar ex", number: "284/217", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/676096_in_1000x1000.jpg", tcgProductId: "676096", ebayQuery: "\"Mega Gengar ex\" \"284/217\"" },
+          { name: "Mega Scrafty ex", number: "285/217", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/676097_in_1000x1000.jpg", tcgProductId: "676097", ebayQuery: "\"Mega Scrafty ex\" \"285/217\"" },
+          { name: "N's Zoroark ex", number: "286/217", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/676098_in_1000x1000.jpg", tcgProductId: "676098", ebayQuery: "\"N's Zoroark ex\" \"286/217\"" },
+          { name: "Marnie's Grimmsnarl ex", number: "287/217", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/676099_in_1000x1000.jpg", tcgProductId: "676099", ebayQuery: "\"Marnie's Grimmsnarl ex\" \"287/217\"" },
+          { name: "Fezandipiti ex", number: "288/217", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/676100_in_1000x1000.jpg", tcgProductId: "676100", ebayQuery: "\"Fezandipiti ex\" \"288/217\"" },
+          { name: "Steven's Metagross ex", number: "289/217", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/676101_in_1000x1000.jpg", tcgProductId: "676101", ebayQuery: "\"Steven's Metagross ex\" \"289/217\"" },
+          { name: "Mega Dragonite ex", number: "290/217", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/676102_in_1000x1000.jpg", tcgProductId: "676102", ebayQuery: "\"Mega Dragonite ex\" \"290/217\"" },
+          { name: "Canari", number: "291/217", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/676103_in_1000x1000.jpg", tcgProductId: "676103", ebayQuery: "\"Canari\" \"291/217\"" },
+          { name: "Iris's Fighting Spirit", number: "292/217", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/676104_in_1000x1000.jpg", tcgProductId: "676104", ebayQuery: "\"Iris's Fighting Spirit\" \"292/217\"" },
+          { name: "Surfer", number: "293/217", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/676105_in_1000x1000.jpg", tcgProductId: "676105", ebayQuery: "\"Surfer\" \"293/217\"" }
         ]
       },
       {
@@ -457,10 +489,10 @@
         cover: "https://www.blezonline.com/_next/image?url=https%3A%2F%2Ftwpbrxfgpzjmbxgwhljk.supabase.co%2Fstorage%2Fv1%2Fobject%2Fpublic%2Fcollectibles%2Fpublic%2FPOKEMON%2FSWSH8-FUSION_STRIKE.webp&w=1920&q=75",
         coverFallback: "https://images.pokemontcg.io/swsh8/271_hires.png",
         topHits: [
-          { name: "Gengar VMAX", tag: "Alt Art / 頭號大獎", image: "https://images.pokemontcg.io/swsh8/271_hires.png" },
-          { name: "Espeon VMAX", tag: "Alt Art", image: "https://images.pokemontcg.io/swsh8/270_hires.png" },
-          { name: "Celebi V", tag: "Alt Art", image: "https://images.pokemontcg.io/swsh8/245_hires.png" },
-          { name: "Mew VMAX", tag: "高人氣", image: "https://images.pokemontcg.io/swsh8/269_hires.png" }
+          { name: "Gengar VMAX", number: "271/264", tag: "Alt Art / 頭號大獎", image: "https://images.pokemontcg.io/swsh8/271_hires.png", tcgProductId: "", ebayQuery: "\"Gengar VMAX\" \"271/264\"" },
+          { name: "Espeon VMAX", number: "270/264", tag: "Alt Art", image: "https://images.pokemontcg.io/swsh8/270_hires.png", tcgProductId: "", ebayQuery: "\"Espeon VMAX\" \"270/264\"" },
+          { name: "Mew VMAX", number: "269/264", tag: "高人氣", image: "https://images.pokemontcg.io/swsh8/269_hires.png", tcgProductId: "", ebayQuery: "\"Mew VMAX\" \"269/264\"" },
+		  { name: "Celebi V", number: "245/264", tag: "Alt Art", image: "https://images.pokemontcg.io/swsh8/245_hires.png", tcgProductId: "", ebayQuery: "\"Celebi V\" \"245/264\"" }
         ]
       },
       {
@@ -472,10 +504,10 @@
         cover: "https://www.blezonline.com/_next/image?url=https%3A%2F%2Ftwpbrxfgpzjmbxgwhljk.supabase.co%2Fstorage%2Fv1%2Fobject%2Fpublic%2Fcollectibles%2Fpublic%2FPOKEMON%2FSWSH9-BRILLIANT_STARS.webp&w=1920&q=75",
         coverFallback: "https://images.pokemontcg.io/swsh9/154_hires.png",
         topHits: [
-          { name: "Charizard V", tag: "Alt Art / 頭號大獎", image: "https://images.pokemontcg.io/swsh9/154_hires.png" },
-          { name: "Arceus V", tag: "Alt Art", image: "https://images.pokemontcg.io/swsh9/166_hires.png" },
-          { name: "Charizard VSTAR", tag: "Rainbow Rare", image: "https://images.pokemontcg.io/swsh9/174_hires.png" },
-          { name: "Umbreon V", tag: "Trainer Gallery", image: "https://images.pokemontcg.io/swsh9tg/TG22_hires.png" }
+          { name: "Charizard V", number: "154/172", tag: "Alt Art / 頭號大獎", image: "https://images.pokemontcg.io/swsh9/154_hires.png", tcgProductId: "", ebayQuery: "\"Charizard V\" \"154/172\"" },
+          { name: "Charizard VSTAR", number: "174/172", tag: "Rainbow Rare", image: "https://images.pokemontcg.io/swsh9/174_hires.png", tcgProductId: "", ebayQuery: "\"Charizard VSTAR\" \"174/172\"" },
+          { name: "Umbreon VMAX", number: "TG23/TG30", tag: "Trainer Gallery", image: "https://images.pokemontcg.io/swsh9tg/TG23_hires.png", tcgProductId: "", ebayQuery: "\"Umbreon VMAX\" \"TG23/TG30\"" },
+          { name: "Umbreon V", number: "TG22/TG30", tag: "Trainer Gallery", image: "https://images.pokemontcg.io/swsh9tg/TG22_hires.png", tcgProductId: "", ebayQuery: "\"Umbreon V\" \"TG22/TG30\"" }
         ]
       },
       {
@@ -485,12 +517,12 @@
         stock: "1包",
         desc: "絕版日月熱門彈。",
         cover: "https://www.blezonline.com/_next/image?url=https%3A%2F%2Ftwpbrxfgpzjmbxgwhljk.supabase.co%2Fstorage%2Fv1%2Fobject%2Fpublic%2Fcollectibles%2Fpublic%2FPOKEMON%2FUNBROKEN_BONDS_SLEEVED_PACK.webp&w=1920&q=75",
-        coverFallback: "https://images.pokemontcg.io/sm10/192_hires.png",
+        coverFallback: "https://images.pokemontcg.io/sm10/217_hires.png",
         topHits: [
-          { name: "Reshiram & Charizard-GX", tag: "Full Art / 頭號大獎", image: "https://images.pokemontcg.io/sm10/192_hires.png" },
-          { name: "Gardevoir & Sylveon-GX", tag: "Secret Rare", image: "https://images.pokemontcg.io/sm10/205_hires.png" },
-          { name: "Lucario & Melmetal-GX", tag: "Secret Rare", image: "https://images.pokemontcg.io/sm10/203_hires.png" },
-          { name: "Marshadow & Machamp-GX", tag: "高人氣 Tag Team", image: "https://images.pokemontcg.io/sm10/199_hires.png" }
+          { name: "Gardevoir & Sylveon-GX", number: "205/214", tag: "Secret Rare", image: "https://images.pokemontcg.io/sm10/205_hires.png", tcgProductId: "", ebayQuery: "\"Gardevoir & Sylveon-GX\" \"205/214\"" },
+		  { name: "Reshiram & Charizard-GX", number: "217/214", tag: "Full Art / 頭號大獎", image: "https://images.pokemontcg.io/sm10/217_hires.png", tcgProductId: "", ebayQuery: "\"Reshiram & Charizard-GX\" \"217/214\"" },
+          { name: "Greninja & Zoroark-GX", number: "201/214", tag: "Secret Rare", image: "https://images.pokemontcg.io/sm10/201_hires.png", tcgProductId: "", ebayQuery: "\"Greninja & Zoroark-GX\" \"201/214\"" },
+          { name: "Marshadow & Machamp-GX", number: "199/214", tag: "高人氣 Tag Team", image: "https://images.pokemontcg.io/sm10/199_hires.png", tcgProductId: "", ebayQuery: "\"Marshadow & Machamp-GX\" \"199/214\"" }
         ]
       },
       {
@@ -502,29 +534,28 @@
         cover: "https://www.blezonline.com/_next/image?url=https%3A%2F%2Ftwpbrxfgpzjmbxgwhljk.supabase.co%2Fstorage%2Fv1%2Fobject%2Fpublic%2Fcollectibles%2Fpublic%2FPOKEMON%2FME1-MEGA_EVOLUTION.webp&w=828&q=75",
         coverFallback: "https://www.pokebeach.com/news/2025/07/Pokemon_Trading_Card_Game_Mega_Gardevoir_ex_EN-221x300.png",
         topHits: [
-		  { name: "Mega Lucario ex", tag: "Gold", image: "https://tcgplayer-cdn.tcgplayer.com/product/654527_in_1000x1000.jpg" },
-          { name: "Mega Lucario ex", tag: "SIR", image: "https://www.pokebeach.com/news/2025/07/Pokemon_Trading_Card_Game_Mega_Lucario_ex_EN-221x300.png" },
-          { name: "Mega Gardevoir ex", tag: "SIR", image: "https://www.pokebeach.com/news/2025/07/Pokemon_Trading_Card_Game_Mega_Gardevoir_ex_EN-221x300.png" },
-          { name: "Mega Venusaur ex", tag: "SIR", image: "https://www.pokebeach.com/news/2025/07/Pokemon_Trading_Card_Game_Mega_Venusaur_ex_EN-221x300.png" },
-          { name: "Mega Kangaskhan ex", tag: "SIR", image: "https://www.pokebeach.com/news/2025/07/Pokemon_Trading_Card_Game_Mega_Kangaskhan_ex_EN-221x300.png" }
+          { name: "Mega Lucario ex", number: "188/132", tag: "Gold", image: "https://tcgplayer-cdn.tcgplayer.com/product/654527_in_1000x1000.jpg", tcgProductId: "654527", ebayQuery: "\"Mega Lucario ex\" \"188/132\"" },
+          { name: "Mega Lucario ex", number: "179/132", tag: "SIR", image: "https://www.pokebeach.com/news/2025/07/Pokemon_Trading_Card_Game_Mega_Lucario_ex_EN-221x300.png", tcgProductId: "", ebayQuery: "\"Mega Lucario ex\" \"179/132\"" },
+          { name: "Mega Gardevoir ex", number: "187/132", tag: "Gold", image: "https://www.pokebeach.com/news/2025/07/Pokemon_Trading_Card_Game_Mega_Gardevoir_ex_EN-221x300.png", tcgProductId: "", ebayQuery: "\"Mega Gardevoir ex\" \"187/132\"" },
+          { name: "Mega Gardevoir ex", number: "178/132", tag: "SIR", image: "https://www.pokebeach.com/news/2025/07/Pokemon_Trading_Card_Game_Mega_Gardevoir_ex_EN-221x300.png", tcgProductId: "", ebayQuery: "\"Mega Gardevoir ex\" \"178/132\"" },
+          { name: "Mega Venusaur ex", number: "177/132", tag: "SIR", image: "https://www.pokebeach.com/news/2025/07/Pokemon_Trading_Card_Game_Mega_Venusaur_ex_EN-221x300.png", tcgProductId: "", ebayQuery: "\"Mega Venusaur ex\" \"177/132\"" }
         ]
       },
-	  
-	  {
-  id: 16,
-  name: "Ascended Heroes ETB",
-  type: "TW5500",
-  stock: "5盒",
-  desc: "Ascended Heroes 精英訓練盒，適合收藏與開盒。",
-  cover: "https://github.com/zx1001826-cloud/BrianLife.github.io/blob/main/Gemini_Generated_Image_pq8s7rpq8s7rpq8s.png?raw=true",
-  coverFallback: "https://www.pokebeach.com/news/2026/01/284-Mega-Gengar-ex-Ascended-Heroes-143x200.jpg",
-  topHits: [
-    { name: "Pikachu ex (277/217)", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/676089_in_1000x1000.jpg" },
-    { name: "Mega Gengar ex (284/217)", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/676096_in_1000x1000.jpg" },
-    { name: "Team Rocket's Mewtwo ex (281/217)", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/676093_in_1000x1000.jpg" },
-    { name: "Mega Dragonite ex (290/217)", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/676102_in_1000x1000.jpg" }
-  ]
- }
+      {
+        id: 16,
+        name: "Ascended Heroes ETB",
+        type: "TW5500",
+        stock: "5盒",
+        desc: "Ascended Heroes 精英訓練盒，適合收藏與開盒。",
+        cover: "https://github.com/zx1001826-cloud/BrianLife.github.io/blob/main/Gemini_Generated_Image_pq8s7rpq8s7rpq8s.png?raw=true",
+        coverFallback: "https://www.pokebeach.com/news/2026/01/284-Mega-Gengar-ex-Ascended-Heroes-143x200.jpg",
+        topHits: [
+          { name: "Pikachu ex", number: "277/217", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/676089_in_1000x1000.jpg", tcgProductId: "676089", ebayQuery: "\"Pikachu ex\" \"277/217\"" },
+          { name: "Mega Gengar ex", number: "284/217", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/676096_in_1000x1000.jpg", tcgProductId: "676096", ebayQuery: "\"Mega Gengar ex\" \"284/217\"" },
+          { name: "Team Rocket's Mewtwo ex", number: "281/217", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/676093_in_1000x1000.jpg", tcgProductId: "676093", ebayQuery: "\"Team Rocket's Mewtwo ex\" \"281/217\"" },
+          { name: "Mega Dragonite ex", number: "290/217", tag: "SIR", image: "https://tcgplayer-cdn.tcgplayer.com/product/676102_in_1000x1000.jpg", tcgProductId: "676102", ebayQuery: "\"Mega Dragonite ex\" \"290/217\"" }
+        ]
+      }
     ];
 
     const catalog = document.getElementById("catalog");
@@ -552,6 +583,19 @@
 
     function imageWithFallback(primary, fallback, title, subtitle) {
       return primary || fallback || createPlaceholderImage(title, subtitle);
+    }
+
+    function buildTcgplayerUrl(hit) {
+      if (hit.tcgUrl) return hit.tcgUrl;
+      if (hit.tcgProductId) return `https://www.tcgplayer.com/product/${encodeURIComponent(hit.tcgProductId)}`;
+      const fallbackQuery = [hit.number, hit.name].filter(Boolean).join(" ");
+      return `https://www.tcgplayer.com/search/pokemon/product?q=${encodeURIComponent(fallbackQuery)}&view=grid`;
+    }
+
+    function buildEbayUrl(hit) {
+      if (hit.ebayUrl) return hit.ebayUrl;
+      const exactQuery = hit.ebayQuery || [hit.name, hit.number].filter(Boolean).join(" ");
+      return `https://www.ebay.com/sch/i.html?_nkw=${encodeURIComponent(exactQuery)}&LH_Sold=1&LH_Complete=1`;
     }
 
     function openLightbox(src, caption) {
@@ -585,12 +629,12 @@
           <div class="thumb-wrap">
             <span class="type-badge">${product.type}</span>
             <span class="stock-badge">${product.stock}</span>
-            <img class="zoomable" data-caption="${product.name}｜美版封面圖" src="${imageWithFallback(product.cover, product.coverFallback, product.name, product.type)}" alt="${product.name} 封面" onerror="this.onerror=null; this.src=createPlaceholderImage('${product.name.replace(/'/g, "\'")}', '${product.type.replace(/'/g, "\'")}');">
+            <img class="zoomable" data-caption="${product.name}｜美版封面圖" src="${imageWithFallback(product.cover, product.coverFallback, product.name, product.type)}" alt="${product.name} 封面" onerror="this.onerror=null; this.src=createPlaceholderImage('${product.name.replace(/'/g, "\\'")}', '${product.type.replace(/'/g, "\\'")}');">
           </div>
           <div class="card-body">
             <h4>${product.name}</h4>
             <p>${product.desc}</p>
-            <div class="chase-preview">${product.topHits.slice(0, 3).map(hit => `<span class="chase-pill">${hit.name}</span>`).join("")}</div>
+            <div class="chase-preview">${product.topHits.slice(0, 3).map(hit => `<span class="chase-pill">${hit.name}${hit.number ? ` (${hit.number})` : ""}</span>`).join("")}</div>
             <div class="cta-row"><span class="mini-link">點擊查看大獎</span><span class="mini-link">LINE 詢問</span></div>
           </div>
         </article>
@@ -619,12 +663,31 @@
       modalLineLink.href = lineUrl;
       modalNotice.textContent = `想詢問 ${product.name} 的價格、盒況、封面實拍或其他系列，也可以直接加 LINE。`;
 
-      modalPrizes.innerHTML = product.topHits.map(hit => `
-        <div class="prize-card">
-          <img class="zoomable" data-caption="${product.name}｜${hit.name}｜美版大獎圖" src="${imageWithFallback(hit.image, product.coverFallback, hit.name, hit.tag)}" alt="${hit.name}" onerror="this.onerror=null; this.src=createPlaceholderImage('${hit.name.replace(/'/g, "\'")}', '${hit.tag.replace(/'/g, "\'")}');">
-          <div class="text"><strong>${hit.name}</strong><span>${hit.tag}</span></div>
-        </div>
-      `).join("");
+      modalPrizes.innerHTML = product.topHits.map(hit => {
+        const tcgUrl = buildTcgplayerUrl(hit);
+        const ebayUrl = buildEbayUrl(hit);
+
+        return `
+          <div class="prize-card">
+            <img
+              class="zoomable"
+              data-caption="${product.name}｜${hit.name}${hit.number ? ` (${hit.number})` : ""}｜美版大獎圖"
+              src="${imageWithFallback(hit.image, product.coverFallback, hit.name, hit.tag)}"
+              alt="${hit.name}"
+              onerror="this.onerror=null; this.src=createPlaceholderImage('${hit.name.replace(/'/g, "\\'")}', '${hit.tag.replace(/'/g, "\\'")}');"
+            >
+            <div class="text">
+              <strong>${hit.name}${hit.number ? ` (${hit.number})` : ""}</strong>
+              <span>${hit.tag}</span>
+
+              <div class="hit-links">
+                <a class="hit-link-btn tcg" href="${tcgUrl}" target="_blank" rel="noopener noreferrer">🔥 TCG 查價</a>
+                <a class="hit-link-btn ebay" href="${ebayUrl}" target="_blank" rel="noopener noreferrer">💰 eBay 已售</a>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join("");
 
       bindZoomableImages(modal);
       modal.classList.add("show");
