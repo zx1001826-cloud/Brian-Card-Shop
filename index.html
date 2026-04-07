@@ -170,6 +170,11 @@
       color: #fff;
       border: 1px solid rgba(255,255,255,0.12);
     }
+    .hit-link-btn.psa {
+      background: rgba(76, 110, 245, 0.12);
+      color: #c7d2ff;
+      border: 1px solid rgba(76, 110, 245, 0.28);
+    }
 
     .buy-box {
       margin-top: 18px; display: flex; justify-content: space-between; align-items: center; gap: 14px; flex-wrap: wrap;
@@ -598,6 +603,13 @@
       return `https://www.ebay.com/sch/i.html?_nkw=${encodeURIComponent(exactQuery)}&LH_Sold=1&LH_Complete=1`;
     }
 
+    function buildPsa10Url(hit) {
+      const query = hit.number
+        ? `"${hit.name}" "${hit.number}" "PSA 10"`
+        : `"${hit.name}" "PSA 10"`;
+      return `https://www.ebay.com/sch/i.html?_nkw=${encodeURIComponent(query)}&LH_Sold=1&LH_Complete=1`;
+    }
+
     function openLightbox(src, caption) {
       lightboxImage.src = src;
       lightboxCaption.textContent = caption || "";
@@ -666,6 +678,7 @@
       modalPrizes.innerHTML = product.topHits.map(hit => {
         const tcgUrl = buildTcgplayerUrl(hit);
         const ebayUrl = buildEbayUrl(hit);
+        const psa10Url = buildPsa10Url(hit);
 
         return `
           <div class="prize-card">
@@ -683,6 +696,7 @@
               <div class="hit-links">
                 <a class="hit-link-btn tcg" href="${tcgUrl}" target="_blank" rel="noopener noreferrer">🔥 TCG 查價</a>
                 <a class="hit-link-btn ebay" href="${ebayUrl}" target="_blank" rel="noopener noreferrer">💰 eBay 已售</a>
+                <a class="hit-link-btn psa" href="${psa10Url}" target="_blank" rel="noopener noreferrer">🏆 PSA 10 已售</a>
               </div>
             </div>
           </div>
